@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { searchRequest } from "../../actions/searchActions";
+import { Link } from "react-router-dom";
 
 class Search extends Component {
   state = {
@@ -43,16 +44,18 @@ class Search extends Component {
         </div>
         {isFetching ? (
           <div className="search-loading">
-            §Идёт загрузка
+            Идёт загрузка
           </div>
         ) : (
           <div className="search-results">
             {shows.map(show => (
               <div key={show.id} className="show">
                 <div className="show__link">
-                  <a href={show.url}>
-                    <h3>{show.name}</h3>
-                  </a>
+                  <h3>
+                    <Link to={`/shows/${show.id}`}>
+                      {show.name}
+                    </Link>
+                  </h3>
                 </div>
                 {show.image && (
                   <div className="show__image">
@@ -78,7 +81,8 @@ class Search extends Component {
 }
 
 const mapStateToProps = state => ({
-  shows: state.search.results
+  shows: state.search.results,
+  isFetching: state.search.isFetching
 });
 
 const mapDispatchToProps = {
